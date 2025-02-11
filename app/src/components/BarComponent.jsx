@@ -22,9 +22,6 @@ const AppointmentsChart = () => {
 
   return (
     <>
-      <Text className="w-[105px] font-[Proxima-Nova-Semibold] font-bold text-[16px] mt-[20px] mx-[20px] mb-[10px] ">
-        Appointments
-      </Text>
       <View style={styles.container}>
         {/* Bar Chart */}
         <BarChart
@@ -88,14 +85,17 @@ const AppointmentsChart = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "315px",
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: "345px",
     padding: 10,
     backgroundColor: "#fff",
     borderWidth: 0.75,
     borderColor: "#FFF4E5",
     borderRadius: 15,
-    marginLeft: 10,
-    marginRight: 50,
+    // marginLeft: 10,
+    // marginRight: 50,
     marginBottom: 10,
     // backgroundColor: "#FFFCF8",
     backgroundColor: "#FFF",

@@ -3,12 +3,12 @@ import React from "react";
 
 const HomeScreenBoxes = ({ title, number, color }) => {
   return (
-    <View>
+    <View className="flex-1 justify-center items-center">
       <View
         className="rounded-[15px] mt-2 flex-col"
         style={{
           backgroundColor: color,
-          width: "106",
+          width: "109",
           height: "90",
           flexDirection: "column",
           justifyContent: "space-evenly",

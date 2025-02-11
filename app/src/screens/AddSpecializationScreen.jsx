@@ -77,12 +77,14 @@ const AddSpecializationScreen = () => {
           ))}
         </View>
       </ScrollView>
-      <TouchableOpacity
-        style={styles.continueButton}
-        onPress={() => navigation.navigate("AddServicesScreen")}
-      >
-        <Text style={styles.btnText}>Continue</Text>
-      </TouchableOpacity>
+      <View style={styles.fixedButtonContainer}>
+        <TouchableOpacity
+          style={styles.continueButton}
+          onPress={() => navigation.navigate("AddServicesScreen")}
+        >
+          <Text style={styles.btnText}>Continue</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -120,13 +122,23 @@ const styles = StyleSheet.create({
     rowGap: 10, // Adjusts spacing between rows
     columnGap: 15,
   },
+  fixedButtonContainer: {
+    // flex: 1,
+    position: "absolute",
+    bottom: 10,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    backgroundColor: "white",
+    // paddingVertical: 10,
+  },
   continueButton: {
     backgroundColor: "#FF5362",
     height: 60,
     width: 300,
     marginTop: 50,
     borderRadius: 15,
-    marginLeft: 30,
+    // marginLeft: 30,
     marginBottom: 10,
   },
   btnText: {

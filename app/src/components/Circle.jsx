@@ -5,7 +5,7 @@ import Svg, { Circle } from "react-native-svg";
 
 const CircleDesign = () => {
   return (
-    <View className="flex-1 flex-row justify-around w-[335px] py-4 bg-[#FFFCF8] border-[#FFF4E5] border-[0.6px] rounded-[15px] ml-[10px]">
+    <View className="flex-1 flex-row justify-around w-[335px] py-4 bg-[#FFFCF8] border-[#FFF4E5] border-[0.6px] rounded-[15px] ">
       <Svg height="118.75" width="118.75" viewBox="0 0 200 200">
         {/* Purple Arc */}
         <Circle

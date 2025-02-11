@@ -115,14 +115,17 @@ const CalendarComponent = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
     // padding: 10,
     backgroundColor: "#FFFCF8",
     borderRadius: 15,
-    marginLeft: 10,
-    marginRight: 50,
+    // marginLeft: 10,
+    // marginRight: 50,
     borderWidth: 0.75,
     borderColor: "#FFF4E5",
-    width: "345px",
+    width: "355px",
   },
   header: {
     flexDirection: "row",

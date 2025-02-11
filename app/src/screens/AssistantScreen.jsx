@@ -57,17 +57,19 @@ const AssistantScreen = () => {
           <Text className="text-[#7F7F7F] mt-2 ml-5 mb-2">
             Add assistant details
           </Text>
-          <View style={styles.switchContainer}>
-            <Text className="text-[16px] font-[Proxima-Nova-Medium] h-[30] mt-[10px]">
-              Do you have an assistant?
-            </Text>
-            <ToggleSwitch
-              isOn={isSwitchOn}
-              onColor="red"
-              offColor="grey"
-              size="small"
-              onToggle={(isOn) => setIsSwitchOn(isOn)}
-            />
+          <View className="flex-1 justify-center items-center">
+            <View style={styles.switchContainer}>
+              <Text className="text-[16px] font-[Proxima-Nova-Medium] h-[30] mt-[10px]">
+                Do you have an assistant?
+              </Text>
+              <ToggleSwitch
+                isOn={isSwitchOn}
+                onColor="red"
+                offColor="grey"
+                size="small"
+                onToggle={(isOn) => setIsSwitchOn(isOn)}
+              />
+            </View>
           </View>
           {/* <Image source={require("../assets/images/DummyImages")}/> */}
           {isSwitchOn && (

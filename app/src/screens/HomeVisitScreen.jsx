@@ -4,25 +4,80 @@ import {
   View,
   ScrollView,
   Image,
+  Modal,
+  Animated,
+  PanResponder,
+  TextInput,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useRef, useMemo, useState } from "react";
 import HomeVisitBoxes from "../components/HomeVisitBoxes";
 import PetDetailsComponent from "../components/PetDetailsComponent";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 const HomeVisitScreen = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isOtpModalVisible, setIsOtpModalVisible] = useState(false);
+  // BottomSheet reference
+  const translateY = useRef(new Animated.Value(0)).current;
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_, gestureState) =>
+        Math.abs(gestureState.dy) > 10,
+      onPanResponderMove: Animated.event([null, { dy: translateY }], {
+        useNativeDriver: false,
+      }),
+      onPanResponderRelease: (_, gestureState) => {
+        if (gestureState.dy > 150) {
+          closeModal();
+        } else {
+          Animated.spring(translateY, {
+            toValue: 0,
+            useNativeDriver: true,
+          }).start();
+        }
+      },
+    })
+  ).current;
+
+  const openModal = () => {
+    setIsModalVisible(true);
+    Animated.spring(translateY, {
+      toValue: 0,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const closeModal = () => {
+    Animated.timing(translateY, {
+      toValue: 500, // Push the modal off the screen
+      duration: 300,
+      useNativeDriver: true,
+    }).start(() => setIsModalVisible(false));
+  };
+  const openOtpModal = () => {
+    setIsOtpModalVisible(true);
+  };
+
+  const closeOtpModal = () => {
+    setIsOtpModalVisible(false);
+  };
   return (
-    <View className="flex-1 w-[393]  bg-white">
+    <View className="flex-1 bg-white">
       <ScrollView>
-        <View className=" ml-[20px] rounded-[15px] bg-[#FFF2E1] w-[325px] mt-[20px]">
-          <Text className="ml-[15px] mt-[15px] font-[Proxima-Nova-Semibold] text-[16px] text-[#1C222F]">
-            Scheduled
-          </Text>
-          <Text className="ml-[15px] mt-[15px] mb-[16px] mr-[45px] font-[ProximaNova-Regular] text-[14px] text-[#7F7E7C]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi in
-            rerum quaerat! Amet, iusto odio dolor deleniti neque necessitatibus
-            quos vel expedita perferendis exercitationem numquam. Consequuntur
-          </Text>
+        <View className="flex-1 items-center justify-center bg-white">
+          <View className="rounded-[15px] bg-[#FFF2E1] w-[90%] max-w-[325px] mt-[15px]">
+            <Text className="mt-[15px] ml-[15px] font-bold font-[Proxima-Nova-Semibold] text-[16px] text-[#1C222F]">
+              Scheduled
+            </Text>
+            <Text className="mt-[15px] mb-[16px] ml-[15px] mr-[15px] font-[ProximaNova-Regular] text-[14px] text-[#7F7E7C]">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi in
+              rerum quaerat! Amet, iusto odio dolor deleniti neque
+              necessitatibus quos vel expedita perferendis exercitationem
+              numquam. Consequuntur
+            </Text>
+          </View>
         </View>
         <View className=" ml-[20px] rounded-[15px] mt-[20px] w-[325px] bg-[#FFFCF8] border-[0.75px] border-[#FFF4E5]">
           <View className="flex flex-row items-center ml-[15px] mt-[15.3px]  gap-[5px]">
@@ -36,7 +91,7 @@ const HomeVisitScreen = () => {
               source={require("../assets/images/timedate.png")}
               className="w-[18.18] h-[16.05]"
             />
-            <Text className="font-[Proxima-Nova-Medium] text-[16px] text-[#1C222F]">
+            <Text className="font-[Proxima-Nova-Medium] h-[20px] text-[16px] text-[#1C222F]">
               24, April, 2024, 09:00 AM - 10:00 AM
             </Text>
           </View>
@@ -72,7 +127,7 @@ const HomeVisitScreen = () => {
                 source={require("../assets/images/services.png")}
                 className="w-[16.29px] h-[18.01px]"
               />
-              <Text className="w-[107px] h-[18px] font-[Proxima-Nova-Medium] text-[16px]">
+              <Text className=" h-[20px] font-[Proxima-Nova-Medium] text-[16px]">
                 Medical history
               </Text>
             </View>
@@ -84,7 +139,7 @@ const HomeVisitScreen = () => {
             </View>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={openModal}>
           <View className=" flex flex-row items-center justify-between w-[325px] h-[58px] bg-[#FFFCF8] border-[0.75px] border-[#FCEFDD] rounded-[15px] ml-[20px] mt-[15px]">
             <View className="flex flex-row justify-center items-center gap-[12.7px] ml-[17px] mb-[21px] mt-[19px]">
               <Image
@@ -103,6 +158,48 @@ const HomeVisitScreen = () => {
             </View>
           </View>
         </TouchableOpacity>
+        {isModalVisible && (
+          <View className="absolute top-0 left-0 right-0 bottom-0 bg-black opacity-50" />
+        )}
+
+        <Modal
+          visible={isModalVisible}
+          transparent
+          animationType="fade"
+          onRequestClose={closeModal}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "flex-end",
+              backgroundColor: "rgba(0,0,0,0.5)",
+            }}
+          >
+            <Animated.View
+              style={{
+                backgroundColor: "#FFFCF8",
+                borderTopLeftRadius: 20,
+                borderTopRightRadius: 20,
+                padding: 20,
+                transform: [{ translateY }],
+              }}
+              {...panResponder.panHandlers}
+            >
+              <View className="flex h-[300px]">
+                <Text className="text-lg font-bold">Service details</Text>
+                <View className="bg-[#FFFCF8] border border-[#FCEFDD] rounded-lg p-4 mt-4">
+                  <Text className="text-base font-medium">Vet visit</Text>
+                  <Text className="text-base text-gray-600">₹850.00</Text>
+                </View>
+                <TouchableOpacity>
+                  <Text className="text-red-500 mt-4">
+                    + Add Additional Services
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </Animated.View>
+          </View>
+        </Modal>
         <Text className="mt-[20px] mb-[14px] h-[18px] font-[Proxima-Nova-Semibold] text-[16px] text-[#000000] ml-[20px]">
           Payment summary
         </Text>
@@ -113,7 +210,7 @@ const HomeVisitScreen = () => {
             </Text>
             <View className=" flex-row items-center">
               <FontAwesome name="rupee" size={14} color="#7F7F7F" />
-              <Text className="text-[14px] font-[Proxima-Nova-Medium] text-[#7F7F7F] mr-[15px]">
+              <Text className="text-[14px] font-[Proxima-Nova-Medium] text-[#7F7F7F] mb-[6px] mr-[15px]">
                 850
               </Text>
             </View>
@@ -124,7 +221,7 @@ const HomeVisitScreen = () => {
             </Text>
             <View className="flex flex-row items-center ">
               <FontAwesome name="rupee" size={14} color="#7F7F7F" />
-              <Text className="text-[14px] font-[Proxima-Nova-Medium] text-[#7F7F7F] mr-[15px]">
+              <Text className="text-[14px] font-[Proxima-Nova-Medium] text-[#7F7F7F] mb-[6px] mr-[15px]">
                 60
               </Text>
             </View>
@@ -135,7 +232,7 @@ const HomeVisitScreen = () => {
             </Text>
             <View className="flex flex-row items-center">
               <FontAwesome name="rupee" size={14} color="#7F7F7F" />
-              <Text className="text-[14px] font-[Proxima-Nova-Medium] text-[#7F7F7F] mr-[15px]">
+              <Text className="text-[14px] mb-[6px] font-[Proxima-Nova-Medium] text-[#7F7F7F] mr-[15px]">
                 199.00
               </Text>
             </View>
@@ -172,13 +269,133 @@ const HomeVisitScreen = () => {
           </Text>
         </View>
       </ScrollView>
-      <TouchableOpacity>
-        <Text>Start Consultation</Text>
+
+      <TouchableOpacity
+        style={styles.continueButton}
+        onPress={openOtpModal}
+        // onPress={() => navigation.navigate("ServicesPricesScreen")}
+      >
+        <Text style={styles.btnText}>Start Consultation</Text>
       </TouchableOpacity>
+      <Modal
+        visible={isOtpModalVisible}
+        transparent
+        animationType="slide"
+        onRequestClose={closeOtpModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Enter the OTP</Text>
+            <Text style={styles.modalSubtitle}>
+              Please enter the OTP received from the pet parent
+            </Text>
+            <View style={styles.otpInputContainer}>
+              {Array(4)
+                .fill("")
+                .map((_, index) => (
+                  <TextInput
+                    key={index}
+                    style={styles.otpInput}
+                    keyboardType="number-pad"
+                    maxLength={1}
+                  />
+                ))}
+            </View>
+            <TouchableOpacity
+              style={styles.verifyButton}
+              onPress={closeOtpModal}
+            >
+              <Text style={styles.verifyButtonText}>Verify</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
 
+const styles = StyleSheet.create({
+  continueButton: {
+    backgroundColor: "#FF5362",
+    height: 60,
+    width: 300,
+    marginTop: 20,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 30,
+    marginBottom: 20,
+  },
+  btnText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContent: {
+    width: "90%",
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  modalSubtitle: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 20,
+  },
+  otpInputContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 30,
+  },
+  otpInput: {
+    width: 48,
+    height: 58,
+    marginLeft: 10,
+    borderWidth: 1,
+    borderColor: "#FCEFDD",
+    borderRadius: 10,
+    backgroundColor: "#FFFCF8",
+    textAlign: "center",
+    fontSize: 18,
+    color: "#333",
+  },
+  verifyButton: {
+    backgroundColor: "#FF5362",
+    height: 60,
+    width: 300,
+    marginTop: 20,
+    borderRadius: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    // marginLeft: 30,
+    marginBottom: 20,
+  },
+  verifyButtonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+});
 export default HomeVisitScreen;
-
-const styles = StyleSheet.create({});

@@ -335,14 +335,16 @@ const ServicesScreen = () => {
           </View>
         </View>
       </ScrollView>
-      <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("VetDetailsScreen", { selectedServices })
-        }
-        style={styles.continueButton}
-      >
-        <Text style={styles.btnText}>Continue</Text>
-      </TouchableOpacity>
+      <View className="flex-1 justify-center items-center">
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("VetDetailsScreen", { selectedServices })
+          }
+          style={styles.continueButton}
+        >
+          <Text style={styles.btnText}>Continue</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -388,7 +390,7 @@ const styles = StyleSheet.create({
     width: 300,
     marginTop: 20,
     borderRadius: 15,
-    marginLeft: 30,
+    // marginLeft: 30,
     marginBottom: 10,
     justifyContent: "center",
     alignItems: "center",

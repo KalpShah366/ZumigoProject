@@ -41,6 +41,18 @@ const VetLocationScreen = () => {
     "Nashik",
     "Aurangabad",
     "Satara",
+    "Thane",
+    "Nashik",
+    "Aurangabad",
+    "Satara",
+    "Thane",
+    "Nashik",
+    "Aurangabad",
+    "Satara",
+    "Thane",
+    "Nashik",
+    "Aurangabad",
+    "Satara",
   ];
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
@@ -56,24 +68,28 @@ const VetLocationScreen = () => {
           Based on the address provided, we have populated the neighbourhood
           that you may prefer to serve.
         </Text>
-        <View style={styles.rangeContainer}>
-          <View style={styles.iconBox}>
-            <MaterialCommunityIcons name="target" size={30} color="purple" />
-            <Text>Radius</Text>
+        <View className="flex-1 justify-center items-center">
+          <View style={styles.rangeContainer}>
+            <View style={styles.iconBox}>
+              <MaterialCommunityIcons name="target" size={30} color="purple" />
+              <Text>Radius</Text>
+            </View>
+
+            <Slider
+              style={styles.slider}
+              minimumValue={5} // Minimum value of 5 km
+              maximumValue={50} // Maximum value (e.g., 50 km)
+              value={5} // Default value: 5 km
+              step={1} // Steps in whole kilometers
+              onValueChange={(val) => setRange(val)} // Update range on slider change
+              minimumTrackTintColor="#FF5362" // Red color for the active track
+              maximumTrackTintColor="#000000" // Grey color for the inactive track
+              thumbTintColor="#FF5362" // Red thumb color
+              renderThumb={() => <View style={styles.squareThumb} />}
+            />
+
+            <Text style={styles.text}>{range} km</Text>
           </View>
-          <Slider
-            style={styles.slider}
-            minimumValue={5} // Minimum value of 5 km
-            maximumValue={50} // Maximum value (e.g., 50 km)
-            value={5} // Default value: 5 km
-            step={1} // Steps in whole kilometers
-            onValueChange={(val) => setRange(val)} // Update range on slider change
-            minimumTrackTintColor="#FF5362" // Red color for the active track
-            maximumTrackTintColor="#000000" // Grey color for the inactive track
-            thumbTintColor="#FF5362" // Red thumb color
-            renderThumb={() => <View style={styles.squareThumb} />}
-          />
-          <Text style={styles.text}>{range} km</Text>
         </View>
         <Text style={styles.thirdHeading}>
           The areas shown below are within the specified radius.
@@ -92,12 +108,14 @@ const VetLocationScreen = () => {
           ))}
         </View>
       </ScrollView>
-      <TouchableOpacity
-        style={styles.continueButton}
-        onPress={() => navigation.navigate("AddSpecializationScreen")}
-      >
-        <Text style={styles.btnText}>Continue</Text>
-      </TouchableOpacity>
+      <View style={styles.fixedButtonContainer}>
+        <TouchableOpacity
+          style={styles.continueButton}
+          onPress={() => navigation.navigate("AddSpecializationScreen")}
+        >
+          <Text style={styles.btnText}>Continue</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -180,7 +198,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 100,
   },
   iconBox: {
     flexDirection: "column",
@@ -189,14 +207,25 @@ const styles = StyleSheet.create({
     height: 39,
     marginLeft: 5,
   },
+  fixedButtonContainer: {
+    // flex: 1,
+    position: "absolute",
+    bottom: 10,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    backgroundColor: "white",
+    // paddingVertical: 10,
+  },
   continueButton: {
     backgroundColor: "#FF5362",
     height: 60,
     width: 300,
     marginTop: 50,
-    borderRadius: 20,
-    marginLeft: 30,
-    marginBottom: 10,
+    borderRadius: 15,
+    // marginLeft: 30,
+    // marginBottom: 10,
+    position: "fixed",
   },
   btnText: {
     color: "#fff",

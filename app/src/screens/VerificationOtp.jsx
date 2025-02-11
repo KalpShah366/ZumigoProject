@@ -45,12 +45,14 @@ const VerificationOtp = () => {
                 <Text style={{ color: "#666666" }}>Resend OTP in </Text>
                 <Text style={{ color: "#000000" }}>01:22</Text>
               </View>
-              <TouchableOpacity
-                style={styles.verifyButton}
-                onPress={() => navigation.navigate("ServicesScreen")}
-              >
-                <Text style={styles.btnText}>Verify</Text>
-              </TouchableOpacity>
+              <View style={styles.verifyContainer}>
+                <TouchableOpacity
+                  style={styles.verifyButton}
+                  onPress={() => navigation.navigate("ServicesScreen")}
+                >
+                  <Text style={styles.btnText}>Verify</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -94,6 +96,12 @@ const styles = StyleSheet.create({
   resendOtpBox: {
     flexDirection: "row",
   },
+  // verifyContainer: {
+  //   flex: 1,
+  //   justifyContent: "center", // Centers the button vertically
+  //   alignItems: "center", // Centers the button horizontally
+  //   backgroundColor: "#ffffff",
+  // },
   verifyButton: {
     backgroundColor: "#FF5362",
     height: 60,

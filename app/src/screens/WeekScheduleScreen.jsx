@@ -110,16 +110,17 @@ const WeekScheduleScreen = () => {
         </Text>
 
         <WeekDaysComponent selectedDays={selectedDays} toggleDay={toggleDay} />
-
-        <View style={styles.switchContainer}>
-          <Text style={styles.switchLabel}>Use same hours for all days</Text>
-          <ToggleSwitch
-            isOn={isSwitchOn}
-            onColor="red"
-            offColor="grey"
-            size="small"
-            onToggle={(isOn) => setIsSwitchOn(isOn)}
-          />
+        <View className="flex-1 justify-center items-center">
+          <View style={styles.switchContainer}>
+            <Text style={styles.switchLabel}>Use same hours for all days</Text>
+            <ToggleSwitch
+              isOn={isSwitchOn}
+              onColor="red"
+              offColor="grey"
+              size="small"
+              onToggle={(isOn) => setIsSwitchOn(isOn)}
+            />
+          </View>
         </View>
         {isSwitchOn && (
           <>
@@ -209,7 +210,7 @@ const WeekScheduleScreen = () => {
 
         <View style={styles.hoursContainer}>
           {selectedDays.map((day, index) => (
-            <View key={index}>
+            <View key={day}>
               <Text style={styles.dayLabel}>{day}</Text>
               {/* Schedule Box */}
               <View style={styles.scheduleBox}>
@@ -308,7 +309,7 @@ const WeekScheduleScreen = () => {
         <View
           style={{
             alignItems: "center",
-            marginTop: 20,
+            // marginTop: 20,
           }}
         >
           <TouchableOpacity onPress={openBottomSheet}>
@@ -316,12 +317,14 @@ const WeekScheduleScreen = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <TouchableOpacity
-        style={styles.continueButton}
-        onPress={() => navigation.navigate("ServicesPricesScreen")}
-      >
-        <Text style={styles.btnText}>Continue</Text>
-      </TouchableOpacity>
+      <View style={styles.fixedButtonContainer}>
+        <TouchableOpacity
+          style={styles.continueButton}
+          onPress={() => navigation.navigate("ServicesPricesScreen")}
+        >
+          <Text style={styles.btnText}>Continue</Text>
+        </TouchableOpacity>
+      </View>
       {isBottomSheetVisible && (
         <View className="absolute top-0 left-0 right-0 bottom-0 bg-black opacity-50" />
       )}
@@ -413,7 +416,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFCF8",
     marginLeft: 10,
     marginRight: 10,
-    marginBottom: 10,
+    marginBottom: 90,
     gap: 10,
     // padding: 10,
   },
@@ -437,7 +440,7 @@ const styles = StyleSheet.create({
   link: {
     fontSize: 14,
     color: "#1C222F",
-    marginTop: 20,
+    // marginTop: 20,
     marginBottom: 10,
     marginLeft: 5,
     textDecorationLine: "underline",
@@ -448,6 +451,16 @@ const styles = StyleSheet.create({
     // justifyContent: "flex-end",
     marginTop: 20,
   },
+  fixedButtonContainer: {
+    // flex: 1,
+    position: "absolute",
+    bottom: 10,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    backgroundColor: "white",
+    // paddingVertical: 10,
+  },
   continueButton: {
     backgroundColor: "#FF5362",
     height: 60,
@@ -456,7 +469,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 30,
+    // marginLeft: 30,
     marginBottom: 20,
   },
   okBox: {

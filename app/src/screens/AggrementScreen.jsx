@@ -13,7 +13,7 @@ const AggrementScreen = () => {
   const navigation = useNavigation();
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1 justify-center items-center bg-white">
       <ScrollView>
         <Text className="font-[Proxima-Nova-Semibold] text-[26px] text-[#1C222F] ml-5 mt-5 mb-2">
           Agreement
@@ -67,7 +67,7 @@ const AggrementScreen = () => {
             corporis.
           </Text>
         </View>
-        <Text className="font-[Proxima-Nova-Medium] h-[50px] text-[18px]  text-[#000000] ml-5 mb-10 ">
+        <Text className="font-[Proxima-Nova-Medium] h-[20px] text-[18px] bordet-t-[0.75px] border-[#FFF4E5] mt-[15px] text-[#000000] ml-5 mb-10 ">
           Security and privacy
         </Text>
         <View className="flex flex-row ml-5 mt-2 mb-20 gap-[8]">
